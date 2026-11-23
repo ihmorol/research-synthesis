@@ -1,0 +1,21 @@
+# Local research inputs and generated artifacts
+research/
+release-assets/
+*.pdf
+*.docx
+*.xlsx
+*.zip
+
+# Credentials and local tool state
+.env
+.env.*
+!.env.example
+.gstack/
+.mimosa/
+node_modules/
+
+# Editor and operating-system files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
