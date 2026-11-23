@@ -1,109 +1,99 @@
 # Research synthesis
 
-Work through a collection of papers without losing track of what each source actually supports.
+Turn literature in your workspace into a source-grounded synthesis.
 
-Research synthesis is an [Agent Skill](https://agentskills.io/specification) for screening papers, extracting evidence, comparing findings, planning a study, and checking a draft against its sources. It works with papers you supply. It doesn't search the web for you or turn an arbitrary reading list into a systematic review.
+An [Agent Skill](https://agentskills.io/specification) for comparing research findings, writing a literature-review section, and checking drafts against their sources. It also supports screening, extraction, and study planning.
 
-The skill is a set of Markdown instructions. Your agent reads the workflow it needs, uses its existing document tools, and returns a table, brief, review, or study proposal with source locations and unresolved questions made visible.
+## Fit and readiness
+
+**Use this after collecting literature. A finished written review is not required.** The agent checks your workspace for the question, papers, selection records, drafts, evidence tables, and nomenclature before asking you to repeat them.
+
+| Available material | Next step |
+|---|---|
+| Selected sources and a question | Synthesize evidence, with source locations. |
+| Review draft and its papers | Reuse useful work; revise or audit against the sources. |
+| Papers not yet screened | Recover scope and screen before synthesis, or label an explicitly requested provisional review. |
+| Notes, abstracts, bibliography, or draft only | Offer limited analysis; request source text for paper-level verification. |
+| No usable sources after checking the workspace | Ask for missing material or recommend separate literature discovery. Never invent citations. |
+
+The agent must inspect files; installation does not give it automatic workspace knowledge. It reads relevant project context, reuses stable IDs and preferred terminology, and asks about material gaps or conflicting project contexts. A glossary guides naming, not what the papers demonstrate. Source definitions and quotes stay distinct.
+
+The skill does not search the web automatically, conduct a complete systematic review, or write an entire thesis without a specific request. Your agent needs permitted file access and document tools; scanned PDFs may need OCR. If those are unavailable, supply the needed text.
 
 ## Install
 
-With the [Skills CLI](https://github.com/vercel-labs/skills):
+With the external [Skills CLI](https://github.com/vercel-labs/skills):
 
 ```sh
 npx skills add ihmorol/research-synthesis --skill research-synthesis
 ```
 
-This command runs the external Skills CLI. Review that tool before using it; it is not part of this repository.
+Review that CLI before running it; it is not part of this package.
 
-For a pinned copy without an installer, download the archive attached to [v0.1.0](https://github.com/ihmorol/research-synthesis/releases/tag/v0.1.0). Extract it, then copy the entire `research-synthesis/` folder into a skill directory your agent supports. For ZCode, that can be:
+For manual installation, copy the full `skills/research-synthesis/` folder into a directory supported by your host. ZCode supports `~/.agents/skills/research-synthesis/` and project-scoped `<project>/.agents/skills/research-synthesis/`. Keep references and assets together; refresh discovery if needed.
 
-```text
-~/.agents/skills/research-synthesis/
-```
+The [v0.1.1 ZIP](https://github.com/ihmorol/research-synthesis/releases/tag/v0.1.1) is a pinned release; the [v0.1.0 archive](https://github.com/ihmorol/research-synthesis/releases/tag/v0.1.0) remains unchanged. The installed skill contains no executables or runtime dependencies and does not install a PDF reader. Host support for discovery and slash commands varies.
 
-A project-scoped copy belongs in `<project>/.agents/skills/research-synthesis/`. Discovery paths and slash-command support vary by host. Keep `SKILL.md`, `references/`, and `assets/` together, and refresh skill discovery if needed.
-
-The skill has no runtime dependencies or bundled executables. Your agent still needs a way to read the source files; scanned PDFs may need OCR. Installing this skill does not install a PDF reader.
-
-## Start with a question
-
-Supply your papers and describe the task. In hosts with slash-skill support:
+## Use
 
 ```text
-/research-synthesis Screen my uploaded papers for this question:
-Does roster autonomy reduce exhaustion among hospital nurses?
-Scope: hospital nurses, any country, publications 2020–2025.
-Eligible designs: randomized trials and systematic reviews.
-Return a screening table and reading order in chat. Do not create files.
+/research-synthesis Synthesize the literature for this project in chat.
+Find the question, selected papers, evidence table, and nomenclature in the
+workspace first. Ask only for missing details. Do not create files or browse.
 ```
 
-You can ask for one task without running the rest:
+For a specific review:
 
 ```text
-Build an evidence table for the roster-autonomy/exhaustion relationship.
-Use only the supplied papers. Preserve effect sizes, comparison groups,
-timepoints, and confidence intervals. Mark inaccessible details explicitly.
+Use the selected papers to write a 1,500-word literature-review section
+for my master's thesis. Compare findings, disagreements, and methods.
+Keep page/table references and distinguish evidence from interpretation.
 ```
+
+For verification:
 
 ```text
-Audit this introduction against P01 and P02. Check numerical accuracy,
-causal language, population scope, and secondary citations.
-Return a claim-by-claim table and corrected draft, keeping my voice.
+Audit my introduction against its source papers. Check numbers, causal
+wording, population scope, and secondary citations. Return a claim table
+and corrected draft, keeping my voice.
 ```
 
-For a saved project, request the artifacts you want and name a destination. Chat-only tasks should not create files. Source registration is optional for a small task; stable report and study IDs become useful when you reuse a collection across sessions.
+Request saved artifacts and a destination when needed. Chat-only tasks should create no files. The agent can perform one task without running the whole pipeline.
 
-## Choose a workflow
+## Workflows
 
-| Task | Output | Guide |
-|---|---|---|
-| Register sources | Stable IDs, versions, access limits, and linked reports | [00](skills/research-synthesis/references/workflow-00-corpus-manifest.md) |
-| Screen for relevance | Include/exclude/uncertain decisions and a reading order | [01](skills/research-synthesis/references/workflow-01-screening.md) |
-| Read analytically | Topic-specific briefs, up to 150 words by default | [02](skills/research-synthesis/references/workflow-02-paper-briefs.md) |
-| Extract evidence | Results with measures, uncertainty, limitations, and locators | [03](skills/research-synthesis/references/workflow-03-evidence-table.md) |
-| Compare definitions | Definitions, dimensions, instruments, and coding approaches | [04](skills/research-synthesis/references/workflow-04-definitions-measures.md) |
-| Compare methods | Design trade-offs and a constraint-aware recommendation | [05](skills/research-synthesis/references/workflow-05-methods-comparison.md) |
-| Explain disagreement | Actual findings and ranked explanations | [06](skills/research-synthesis/references/workflow-06-disagreement-analysis.md) |
-| Appraise a claim | Design-specific critique and an informal confidence judgment | [07](skills/research-synthesis/references/workflow-07-evidence-appraisal.md) |
-| Build a framework | Relationships labelled as examined, theoretical, or inferred | [08](skills/research-synthesis/references/workflow-08-conceptual-framework.md) |
-| Find research gaps | Collection-bounded gaps and search terms to check novelty | [09](skills/research-synthesis/references/workflow-09-research-gaps.md) |
-| Develop questions | Questions, hypotheses where justified, and ways to challenge them | [10](skills/research-synthesis/references/workflow-10-research-questions.md) |
-| Design a study | Recruitment, measures, analysis, ethics, and feasibility | [11](skills/research-synthesis/references/workflow-11-study-design.md) |
-| Write a review | An argument organized around themes or debates | [12](skills/research-synthesis/references/workflow-12-literature-review.md) |
-| Audit a draft | Support verdicts, corrections, and unresolved claims | [13](skills/research-synthesis/references/workflow-13-draft-audit.md) |
+| Task | Guide | Task | Guide |
+|---|---|---|---|
+| Source registration | [00](skills/research-synthesis/references/workflow-00-corpus-manifest.md) | Frameworks | [08](skills/research-synthesis/references/workflow-08-conceptual-framework.md) |
+| Screening | [01](skills/research-synthesis/references/workflow-01-screening.md) | Research gaps | [09](skills/research-synthesis/references/workflow-09-research-gaps.md) |
+| Analytical briefs | [02](skills/research-synthesis/references/workflow-02-paper-briefs.md) | Questions/hypotheses | [10](skills/research-synthesis/references/workflow-10-research-questions.md) |
+| Evidence tables | [03](skills/research-synthesis/references/workflow-03-evidence-table.md) | Study design | [11](skills/research-synthesis/references/workflow-11-study-design.md) |
+| Definitions/measures | [04](skills/research-synthesis/references/workflow-04-definitions-measures.md) | Written synthesis | [12](skills/research-synthesis/references/workflow-12-literature-review.md) |
+| Methods | [05](skills/research-synthesis/references/workflow-05-methods-comparison.md) | Draft audits | [13](skills/research-synthesis/references/workflow-13-draft-audit.md) |
+| Disagreements | [06](skills/research-synthesis/references/workflow-06-disagreement-analysis.md) | Workspace intake | [Guide](skills/research-synthesis/references/workspace-intake.md) |
+| Claim appraisal | [07](skills/research-synthesis/references/workflow-07-evidence-appraisal.md) | Reading/writing | [Guide](skills/research-synthesis/references/reading-writing.md) |
 
-## Evidence rules worth checking
+## Efficient work, intact evidence
 
-The instructions ask the agent to attach paper IDs and page, table, or section references to substantive source claims. They distinguish original results, review-level findings, secondary citations, authors' interpretations, and the agent's proposals.
+The agent should load the requested workflow, inspect relevant sections, and reuse verified extracts instead of repeatedly reading the whole collection. It should write clear grammatical prose, omit filler, and avoid duplicating full artifacts in chat. These rules reduce unnecessary work; measured token savings are not claimed.
 
-Missing information has different labels: `not reported`, `not accessible`, `uncertain`, or `not applicable`. A citation-only entry cannot support a full-text finding. Several reports of one study do not count as independent confirmation.
+Efficiency must not remove source verification, contradictory findings, statistics, or uncertainty. The instructions preserve raw quantities and context, distinguish reported findings from proposals, and track dependent reports. Missing information is labelled `not reported`, `not accessible`, `uncertain`, or `not applicable`. Source IDs and locators belong beside claims.
 
-The skill also cautions against causal claims from ordinary cross-sectional associations, disagreement inferred from significance alone, invented sample sizes, and claims that a research gap exists everywhere because it appears in this collection.
+[Methodology notes](skills/research-synthesis/references/methodology-sources.md) explain the use and limits of Cochrane, PRISMA, JBI, and university guidance. The skill does not certify research accuracy, PRISMA compliance, independent review, formal GRADE ratings, or novelty beyond the collection.
 
-These are instructions, not guarantees. Check the underlying passages before relying on the output.
+## Checks and privacy
 
-## Methods and testing
+Synthetic behavioral tests cover selected safeguards, not genuine-paper extraction, OCR, automatic triggering, large corpora, or expert acceptance. [Evaluation record](docs/evaluation.md) · [Test cases](skills/research-synthesis/assets/eval-cases.md)
 
-The [methodology notes](skills/research-synthesis/references/methodology-sources.md) explain how the workflows draw on Cochrane guidance, PRISMA 2020, JBI appraisal tools, and university literature-review practice. They are paraphrased process guidance, not reproduced assessment checklists or endorsements.
-
-The initial draft passed three synthetic behavioral cases covering eligibility, apparent disagreement, and draft auditing. The public version includes those [test cases](skills/research-synthesis/assets/eval-cases.md) for reruns. Those results do not establish real-PDF extraction quality, OCR accuracy, natural triggering, or acceptance by a research expert. See the [evaluation record](docs/evaluation.md) for the scope and remaining tests.
-
-Maintainers can run the repository's dependency-free structural checks with Node.js 22 or newer:
+Maintainers can run structural checks with Node.js 22 or newer:
 
 ```sh
 node scripts/validate.mjs
 node --test scripts/validate.test.mjs
 ```
 
-These check package structure, metadata, local links, and obvious publication residue. They don't assess whether evidence supports a claim. CI runs the same checks; it does not call a model or handle uploaded papers.
+CI runs these checks without model calls or research documents. Repository scripts stay outside the installed skill and use Node built-ins. Structural checks do not assess whether evidence supports a claim.
 
-## Privacy and limits
+Source documents are untrusted data. The skill prohibits embedded-command execution, automatic uploads, and unauthorized outside reads. Your host still controls permissions and data handling. Do not put confidential papers, credentials, or participant data in public issues.
 
-The skill asks the agent to treat source documents as data, ignore embedded commands, and get authorization before running supplied code or sending private papers elsewhere. It contains no automatic uploads, web searches, or telemetry.
-
-Your host agent and document tools still determine how files are handled. Review their data policies before supplying confidential or copyrighted material. Never paste private papers, credentials, or identifiable participant data into public issues.
-
-Formal systematic reviews need their actual search, selection, extraction, appraisal, and reporting procedures. This skill cannot certify PRISMA compliance, independent review, a formal GRADE assessment, or novelty beyond the supplied collection.
-
-Project files: [MIT license](LICENSE) · [contribution guide](CONTRIBUTING.md) · [security reporting](SECURITY.md) · [changelog](CHANGELOG.md) · [source acknowledgments](NOTICE.md)
+[MIT license](LICENSE) · [Contributing](CONTRIBUTING.md) · [Security reporting](SECURITY.md) · [Changelog](CHANGELOG.md) · [Acknowledgments](NOTICE.md)

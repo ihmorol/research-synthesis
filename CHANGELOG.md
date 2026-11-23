@@ -2,6 +2,20 @@
 
 ## Unreleased
 
+## 0.1.1 - 2026-11-23
+
+### Changed
+
+- Put source-readiness cases and task fit before installation in the README.
+- Clarify that collected, selected literature supports synthesis; a finished written review is not required.
+- Add agent routing for unscreened collections, drafts without source papers, and requests with no sources.
+- Check relevant workspace context and nomenclature before requesting inputs; reuse available questions, source IDs, drafts, and evidence tables.
+- Add bounded workspace discovery and ask only about unresolved gaps or conflicting contexts.
+- Add synthetic readiness and workspace-context regression cases.
+- Shorten the always-loaded instructions and add on-demand guidance for efficient reading and natural writing.
+- Reuse verified context, avoid duplicate reads/previews, and preserve evidence detail instead of imposing terse grammar.
+- Distinguish the original v0.1.0 archive from later repository updates.
+
 ## 0.1.0 - 2026-11-23
 
 First public release. Earlier version labels belonged to unpublished drafts.
