@@ -8,7 +8,7 @@ export const repositoryRoot = path.resolve(path.dirname(fileURLToPath(import.met
 function listFiles(directory, root, errors) {
   const files = [];
   for (const entry of readdirSync(directory, { withFileTypes: true })) {
-    if (['.git', '.gstack', 'node_modules', 'release-assets', 'research'].includes(entry.name)) continue;
+    if (directory === root && ['.git', '.gstack', 'node_modules', 'release-assets', 'research'].includes(entry.name)) continue;
     const fullPath = path.join(directory, entry.name);
     if (lstatSync(fullPath).isSymbolicLink()) {
       errors.push(`Symbolic link is not allowed: ${path.relative(root, fullPath)}`);

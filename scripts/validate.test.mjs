@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import { test } from 'node:test';
-import { cpSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
+import { cpSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 import { repositoryRoot, validateRepository } from './validate.mjs';
@@ -11,7 +11,7 @@ function withCopy(run) {
   try {
     cpSync(repositoryRoot, root, {
       recursive: true,
-      filter: source => !['.git', '.gstack', 'release-assets', 'research'].includes(path.basename(source)),
+      filter: source => path.dirname(source) !== repositoryRoot || !['.git', '.gstack', 'node_modules', 'release-assets', 'research'].includes(path.basename(source)),
     });
     run(root);
   } finally {
@@ -51,6 +51,16 @@ test('rejects missing workflow references', () => withCopy(root => {
 test('rejects executable files inside the installed skill', () => withCopy(root => {
   writeFileSync(path.join(root, 'skills/research-synthesis/execute.js'), '');
   hasError(root, 'only Markdown and LICENSE');
+}));
+
+test('rejects executable files in nested directories with excluded root names', () => withCopy(root => {
+  for (const name of ['.git', '.gstack', 'node_modules', 'release-assets', 'research']) {
+    const directory = path.join(root, 'skills/research-synthesis/assets', name);
+    mkdirSync(directory, { recursive: true });
+    writeFileSync(path.join(directory, 'tool.js'), '');
+  }
+  const errors = validateRepository(root).errors.filter(error => error.includes('only Markdown and LICENSE'));
+  assert.equal(errors.length, 5);
 }));
 
 test('rejects private absolute paths in documentation', () => withCopy(root => {
