@@ -12,6 +12,15 @@ Write a thematic synthesis bounded by the supplied corpus and its evidence limit
   optionally to `research/<corpus-key>/<question-key>/literature-review.md`.
   No briefs, manifest, or full pipeline are required.
 
+## Readiness
+
+Apply the main skill's readiness check: selected accessible sources permit synthesis
+without a pre-existing written review. Reuse an existing review/extraction if supplied,
+but do not treat it as independently verified evidence. Recommend screening for an
+unscreened collection; label any explicitly requested provisional synthesis. With no
+sources, request them instead of writing a sourced review. Notes/abstracts alone
+support only a limited, clearly attributed synthesis.
+
 ## Procedure
 
 1. Use stable IDs and verified extracts when relevant; briefs/tables are optional aids.
